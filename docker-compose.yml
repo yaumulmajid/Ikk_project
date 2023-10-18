@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  ikk-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+    - "2000:8880"
+    restart: always
+    volumes:
+    - /home/spring/media/uploads/:/home/spring/media/uploads/
+

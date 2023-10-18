@@ -1,0 +1,85 @@
+image: maven:3.6.3-jdk-11
+
+cache:
+  paths:
+    - .m2/repository
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+  GIT_STRATEGY: clone
+  GIT_SUBMODULE_STRATEGY: recursive
+
+
+stages:
+    - test-code
+    - build-maven
+    - run-dev
+    - run
+
+sonarqube-check:
+  stage: test-code
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script: 
+    ls
+    #- mvn verify sonar:sonar -Dsonar.projectKey=ikk-be
+  allow_failure: true
+
+
+docker-maven:
+  stage: build-maven
+  script:
+    - mvn clean install
+  artifacts:
+    paths: 
+      - target/*.jar
+
+
+docker-run-dev:
+  image: debian:latest
+  stage: run-dev
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - '[[ -f /.dockerenv ]] && ssh-keyscan -H "$SSH_HOSTNAME_DEV" > ~/.ssh/known_hosts'
+    - ls
+  script:
+    - scp target/*.jar root@$SSH_HOSTNAME_DEV:/docker/ikk/$CI_PROJECT_NAME/ikk.jar
+    - scp Dockerfile root@$SSH_HOSTNAME_DEV:/docker/ikk/$CI_PROJECT_NAME/Dockerfile
+    - scp docker-compose.yml root@$SSH_HOSTNAME_DEV:/docker/ikk/$CI_PROJECT_NAME/docker-compose.yml
+    - ssh root@$SSH_HOSTNAME_DEV "cd /docker/ikk/$CI_PROJECT_NAME/ ; docker build -t ikk/$CI_PROJECT_NAME:latest -f /docker/ikk/$CI_PROJECT_NAME/Dockerfile ."
+    - ssh root@$SSH_HOSTNAME_DEV "cd /docker/ikk/$CI_PROJECT_NAME/ ; docker-compose build ; docker-compose down --remove-orphans ; docker-compose up -d "
+
+
+docker-run-prod:
+  image: debian:latest
+  stage: run
+  when: manual
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - '[[ -f /.dockerenv ]] && ssh-keyscan -H "$SSH_HOSTNAME_PROD" > ~/.ssh/known_hosts'
+    - ls
+  script:
+    - scp target/*.jar root@$SSH_HOSTNAME_PROD:/opt/ikk-2.0.0.jar
+    - ssh root@$SSH_HOSTNAME_PROD "systemctl restart ikk.services; systemctl daemon-reload"
+  only:
+    - /-RELEASE$/
+
+    #- ssh root@$SSH_HOSTNAME_PROD "cd /docker/ikk/$CI_PROJECT_NAME/ ; docker build -t ikk/$CI_PROJECT_NAME:latest -f /docker/ikk/$CI_PROJECT_NAME/Dockerfile ."
+    #- ssh root@$SSH_HOSTNAME_PROD "cd /docker/ikk/$CI_PROJECT_NAME/ ; docker-compose build ; docker-compose down --remove-orphans ; docker-compose up -d "
+
+#var/www/ikk (fe)
+#/opt/ikk-2.0.0.jar (be)
+#systemctl restart ikk.services

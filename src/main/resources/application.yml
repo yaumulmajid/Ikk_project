@@ -1,0 +1,89 @@
+server:
+  port: 8880
+
+spring:
+  profiles:
+    active: "dev"
+  application:
+    name: ikk-backend
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 256MB
+      max-request-size: 300MB
+  main:
+    banner-mode: off
+
+check-user-scopes: true
+
+
+---
+
+spring:
+  profiles: dev
+  datasource:
+    username: Ikk
+    password: Ikk2023@
+    url: jdbc:mysql://10.67.0.52:2000/ikk?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+    hikari:
+      connectionTimeout: 20000
+      minimum-idle: 10
+      maximum-pool-size: 10
+      idle-timeout: 10000
+      max-lifetime: 1000
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+media:
+  uploads:
+    path: "/home/spring/media/uploads/"
+---
+
+spring:
+  profiles: local
+  datasource:
+    username: root
+    password: 
+    url: jdbc:mysql://localhost:3306/ikk_backend?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+    hikari:
+      connectionTimeout: 20000
+      minimum-idle: 10
+      maximum-pool-size: 10
+      idle-timeout: 10000
+      max-lifetime: 1000
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+media:
+  uploads:
+    path: "/Users/pusdatin-reja/Downloads/ikk/"
+---
+
+spring:
+  profiles: prod
+  datasource:
+    username: ikk
+    password: Ikkjaya2023!
+    url: jdbc:mysql://localhost:3306/ikk_backend?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+    hikari:
+      connectionTimeout: 20000
+      minimum-idle: 10
+      maximum-pool-size: 10
+      idle-timeout: 10000
+      max-lifetime: 1000
+      driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+  ssl:
+      key-store-type: PKCS12
+      key-store: classpath:keystore/certificate.pfx
+      key-store-password: L4nri!@#$%@
+media:
+  uploads:
+    path: "/home/spring/media/uploads/"
+---
