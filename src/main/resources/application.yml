@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: "dev"
+    active: "local"
   application:
     name: ikk-backend
 
@@ -50,8 +50,8 @@ spring:
   profiles: local
   datasource:
     username: root
-    password: 
-    url: jdbc:mysql://localhost:3306/ikk_backend?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+    password: RfqjZ5FuDyIOfoxOTSSa
+    url: jdbc:mysql://containers-us-west-149.railway.app:5465/railway?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
     hikari:
       connectionTimeout: 20000
       minimum-idle: 10
@@ -62,7 +62,7 @@ spring:
 
 media:
   uploads:
-    path: "/Users/pusdatin-reja/Downloads/ikk/"
+    path: "/Users/yaumu/Downloads/ikk/"
 ---
 
 spring:

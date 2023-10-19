@@ -1,0 +1,12 @@
+
+n
+java:S3776ã"RRefactor this method to reduce its Cognitive Complexity from 25 to the 15 allowed.(¨ªÆ‰ýÿÿÿÿ
+=	java:S131¿""Add a default case to this switch.(ÚÙôÝþÿÿÿÿ
+i
+java:S3776Ð"RRefactor this method to reduce its Cognitive Complexity from 39 to the 15 allowed.(¤à‡Á
+n
+java:S3776ø"RRefactor this method to reduce its Cognitive Complexity from 30 to the 15 allowed.(ªÂÕ¸øÿÿÿÿ
+h
+java:S3776ü"RRefactor this method to reduce its Cognitive Complexity from 27 to the 15 allowed.(éèÇ^
+á
+java:S6541ã"ÄA "Brain Method" was detected. Refactor it to reduce at least one of the following metrics: LOC from 97 to 64, Complexity from 37 to 14, Nesting Level from 3 to 2, Number of Variables from 8 to 6.(¨ªÆ‰ýÿÿÿÿ

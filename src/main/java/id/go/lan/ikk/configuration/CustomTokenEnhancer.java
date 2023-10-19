@@ -19,7 +19,7 @@ public class CustomTokenEnhancer extends JwtAccessTokenConverter {
 
 		Map<String, Object> info = new LinkedHashMap<String, Object>(accessToken.getAdditionalInformation());
 
-		info.put("email", user.getEmail());
+		 info.put("email", user.getEmail());
 			info.put("name", user.getName());
 			info.put("jenisKoordinator", (user.getCoordinatorTypeEntity() == null) ? null : new CoordinatorTypeDto(user.getCoordinatorTypeEntity().getId(), user.getCoordinatorTypeEntity().getName()));
 			info.put("instansi", user.getAgency().getName());
