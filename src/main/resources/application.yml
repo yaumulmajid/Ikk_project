@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: "local"
+    active: "dev"
   application:
     name: ikk-backend
 
@@ -30,9 +30,9 @@ check-user-scopes: true
 spring:
   profiles: dev
   datasource:
-    username: Ikk
-    password: Ikk2023@
-    url: jdbc:mysql://10.67.0.52:2000/ikk?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+    username: master
+    password: password
+    url: jdbc:mysql://db-ikkdev.cupvaudcnlaq.ap-southeast-1.rds.amazonaws.com:3306/db-ikk-dev?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
     hikari:
       connectionTimeout: 20000
       minimum-idle: 10
@@ -50,8 +50,8 @@ spring:
   profiles: local
   datasource:
     username: root
-    password: RfqjZ5FuDyIOfoxOTSSa
-    url: jdbc:mysql://containers-us-west-149.railway.app:5465/railway?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+    password:
+    url: jdbc:mysql://localhost:3306/ikk_backend?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Jakarta&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
     hikari:
       connectionTimeout: 20000
       minimum-idle: 10

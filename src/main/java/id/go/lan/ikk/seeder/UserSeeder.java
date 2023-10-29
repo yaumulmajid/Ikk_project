@@ -44,7 +44,7 @@ public class UserSeeder implements CommandLineRunner {
             userRequest.setEmail("admin@ikk.lan.go.id");
             userRequest.setRole("role_admin_nasional");
             userRequest.setStatus("aktif");
-            userRequest.setPassword("admin1kk@2021");
+            userRequest.setPassword("12345");
             userService.addAdminNasional(userRequest);
         }
     }
